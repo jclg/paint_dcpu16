@@ -1,0 +1,46 @@
+set b, 0                ; position
+set c, 0xF000           ; default color, white
+set i, 0                ; input idx
+
+set pc, main            ; start
+
+:setcolor
+ife [0x9000+i], 0x0031
+        set c, 0xF000   ; white
+ife [0x9000+i], 0x0032
+        set c, 0x0000   ; black
+ife [0x9000+i], 0x0033
+        set c, 0xA000   ; green
+ife [0x9000+i], 0x0034
+        set c, 0xB000   ; blue
+ife [0x9000+i], 0x0035
+        set c, 0xC000   ; red
+ife [0x9000+i], 0x0036
+        set c, 0xD000   ; pink
+ife [0x9000+i], 0x0037
+        set c, 0xE000   ; yellow
+set pc, pop
+
+:move
+ife [0x9000+i], 0x0077  ; up
+        sub b, 32
+ife [0x9000+i], 0x0073  ; down
+        add b, 32
+ife [0x9000+i], 0x0064  ; left
+        add b, 1
+ife [0x9000+i], 0x0061  ; right
+        sub b, 1
+set pc, pop
+
+:main
+ife [0x9000+i], 0
+        set pc, main    ; waiting for key
+jsr move
+jsr setcolor
+set [0x8000+b], 27      ; display (cursor)
+add [0x8000+b], c       ; color
+set [0x9000+i], 0       ; cleaning buffer
+add i, 1
+ife i, 16
+        set i, 0        ; reset buffer
+set pc, main

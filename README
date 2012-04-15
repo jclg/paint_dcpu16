@@ -1,0 +1,11 @@
+A minimalist tool to draw awesome things.
+Written in DCPU-16 assembly.
+
+Use WASD to move/draw and numeric keys to change color.
+1 -> white
+2 -> black
+3 -> green
+4 -> blue
+5 -> red
+6 -> pink
+7 -> yellow
